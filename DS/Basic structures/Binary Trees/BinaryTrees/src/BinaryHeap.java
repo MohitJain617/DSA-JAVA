@@ -1,4 +1,3 @@
-import jdk.javadoc.internal.doclets.formats.html.resources.standard;
 
 public class BinaryHeap {
 	static int parent(int index){return (index-1)/2;}
