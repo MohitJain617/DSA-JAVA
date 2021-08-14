@@ -1,3 +1,4 @@
+import javax.management.RuntimeErrorException;
 
 public class BinaryHeap {
 	static int parent(int index){return (index-1)/2;}
@@ -12,7 +13,7 @@ public class BinaryHeap {
 		if(curr == 0){
 			return;
 		} else {
-			p = parent(curr);
+			int p = parent(curr);
 			if(type == true){
 				if(H[p] < H[curr]){
 					int temp = H[p];
@@ -97,19 +98,52 @@ public class BinaryHeap {
 		}
 	}
 	//make sure the size of the heap array is sufficiently large
-	static void insertHeap(int[] arr, int end){}
+	static void insertHeap(int element, int[] H, int end, boolean type){
+		if(end == H.length-1){
+			throw new RuntimeErrorException(null, "max capacity of heap reached");
+		}
+		H[end+1] = element;
+		bubbleUp(H,end+1,type);
+	}
 	//return and remove the minimum element O(log(n))
-	static int extractMin(int[] H, int end){
-		//
+	static int extractFirst(int[] H, int end, boolean type){
+		if(end == 0){
+			return H[0];
+		}
+
+		int toRet = H[0];
+		//swap
+		int temp = H[end];
+		H[end] = H[0];
+		H[0] = temp;
+		bubbleDown(H,0,end-1,type);
+		return toRet;
 	}
 	//return the min element O(1)
-	static int findMin(int[] H, int end){
+	static int peek(int[] H, int end){
 		if(end < 0) return Integer.MAX_VALUE;
 		return H[0];
 	}
 	//find and decrease the value of key by d, O(n)
 	static void decreaseKey(int key, int d, int[] H){}
 	//merge 2 given heaps
-	static int[] mergeHeap(int[] H1, int[] H2){}
+	static int[] mergeHeap(int[] H1, int[] H2, boolean maxtype){
+		int len1 = H1.length;
+		int len2 = H2.length;
+		int H[] = new int[len1+len2];
+		int i;
+		for(i = 0; i < len1; i++){
+			H[i] = H1[i];
+		}
+		for(int j = 0; j < len2; j++){
+			H[i++] = H2[j];
+		}
+		if(maxtype == true){
+			maxHeap(H,len1+len2-1);
+		} else {
+			minHeap(H,len1+len2-1);
+		}
+		return H;
+	}
 }
 
