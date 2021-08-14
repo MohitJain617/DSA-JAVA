@@ -1,5 +1,3 @@
-import javax.management.RuntimeErrorException;
-
 public class BinaryHeap {
 	static int parent(int index){return (index-1)/2;}
 	static int lchild(int index){return (index*2 + 1);}
@@ -100,7 +98,7 @@ public class BinaryHeap {
 	//make sure the size of the heap array is sufficiently large
 	static void insertHeap(int element, int[] H, int end, boolean type){
 		if(end == H.length-1){
-			throw new RuntimeErrorException(null, "max capacity of heap reached");
+			return;
 		}
 		H[end+1] = element;
 		bubbleUp(H,end+1,type);
