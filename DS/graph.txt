@@ -1,0 +1,48 @@
+Types of graph:
+1. directed
+2. undirected
+
+1.cyclic
+2.acyclic
+
+1.weighted
+2.unweighted
+
+1.sparse
+2.dense
+
+Ways to represent graphs:
+    adjacency matrix
+    adjacency list
+    edge list
+
+
+Graph problems:
+    Shortest Path problem (from a to b)
+    Connectivity (does there exist a path between node A and B?)
+    Negative cycles (does my weighted digraph have any negative cycles? where?) 
+    Strongly connected components (every node in that cycle can reach to every other in it)
+    Traveling salesman problem (np hard) 
+    Bridges/cut edge (edges whose removal increases connectivity)
+    Articulation points (nodes "    "        "           " ) 
+    Minimum spanning tree(mst) 
+    Network flow: max flow (helps to find bottlenecks) 
+
+basic traversals:
+    dfs
+    
+
+    bfs 
+
+
+
+
+
+
+
+
+
+
+
+
+
