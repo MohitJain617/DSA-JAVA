@@ -1,3 +1,4 @@
+import java.util.*;
 public class BinaryHeap {
 	static int parent(int index){return (index-1)/2;}
 	static int lchild(int index){return (index*2 + 1);}
@@ -7,6 +8,17 @@ public class BinaryHeap {
 	//given arbitrary elements, makes min Heap in O(n)
 
 	//type = true means max heap, else min heap
+	static void heapSort(int[] H, boolean ascending){
+		int len = H.length;
+		if(ascending == true)
+			maxHeap(H,len-1);
+		else
+			minHeap(H,len-1);
+		int temp = len-1;
+		for(int i = 0; i < len; i++){
+			extractFirst(H,temp--,ascending);
+		}
+	}
 	static void bubbleUp(int[] H, int curr, boolean type){
 		if(curr == 0){
 			return;
@@ -59,7 +71,7 @@ public class BinaryHeap {
 				else if(((rc != -1) && (H[rc] > H[lc])) && (H[curr] < H[rc])){
 					int temp = H[curr];
 					H[curr] = H[rc];
-					H[lc] = temp;
+					H[rc] = temp;
 					bubbleDown(H,rc,end,type);
 				}
 			}
@@ -73,7 +85,7 @@ public class BinaryHeap {
 				else if(((rc != -1) && (H[rc] < H[lc])) && (H[curr] > H[rc])){
 					int temp = H[curr];
 					H[curr] = H[rc];
-					H[lc] = temp;
+					H[rc] = temp;
 					bubbleDown(H,rc,end,type);
 				}
 			}
@@ -123,7 +135,21 @@ public class BinaryHeap {
 		return H[0];
 	}
 	//find and decrease the value of key by d, O(n)
-	static void decreaseKey(int key, int d, int[] H){}
+	static boolean decreaseKey(int key, int d, int[] H, boolean maxType){
+		int i;
+		for(i = 0; i < H.length; i++){
+			if(H[i] == key){
+				break;
+			}
+		}
+		//key not in list, return false
+		if(i == H.length) return false;
+		H[i] = H[i]-d;
+		bubbleUp(H,i,maxType);
+		bubbleDown(H,i,H.length-1,maxType);
+		//if found and action taken, return true
+		return true;
+	}
 	//merge 2 given heaps
 	static int[] mergeHeap(int[] H1, int[] H2, boolean maxtype){
 		int len1 = H1.length;
@@ -142,6 +168,21 @@ public class BinaryHeap {
 			minHeap(H,len1+len2-1);
 		}
 		return H;
+	}
+
+	public static void main(String args[]){
+		int n;
+		Scanner scn = new Scanner(System.in);
+		n = scn.nextInt();
+		int[] arr = new int[n];
+		for(int i = 0; i < n; i++){
+			arr[i] = scn.nextInt();
+		}
+		heapSort(arr,false);
+		for(int i = 0; i < n; i++){
+			System.out.print(arr[i] + " ");
+		}
+		scn.close();
 	}
 }
 
