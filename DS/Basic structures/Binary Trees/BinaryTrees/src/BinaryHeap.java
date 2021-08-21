@@ -1,14 +1,50 @@
 import java.util.*;
 public class BinaryHeap {
-	static int parent(int index){return (index-1)/2;}
-	static int lchild(int index){return (index*2 + 1);}
-	static int rchild(int index){return (index*2 + 2);}
+
+	int[] heap;
+	int capacity;
+	int size;
+	boolean maxType;
+
+	public BinaryHeap(int capacity, boolean type){
+		heap = new int[capacity];
+		this.capacity = capacity;
+		this.size = 0;
+		maxType = type;
+	}
+	public void insert(int elem){
+		insertHeap(elem,this.heap,this.size,this.maxType);
+		this.size++;
+	}
+	public int extract(){
+		return extractFirst(this.heap,this.size-1,this.maxType);
+	}
+	public int size(){
+		return this.size;
+	}
+	//takes in an array and makes it a heap in O(n) time
+	public void loadHeap(int[] H, int size){
+		this.heap = H;
+		this.size = size;
+		this.capacity = size;
+		if(this.maxType == true) maxHeap(this.heap,this.size-1);
+		else minHeap(this.heap,this.size-1);
+	}
+
+	public int peek(){
+		return peek(this.heap,this.size-1);
+	}
+	
+
+	public int parent(int index){return (index-1)/2;}
+	public int lchild(int index){return (index*2 + 1);}
+	public int rchild(int index){return (index*2 + 2);}
 	//rchild = (index*2 + 2)
 
 	//given arbitrary elements, makes min Heap in O(n)
 
 	//type = true means max heap, else min heap
-	static void heapSort(int[] H, boolean ascending){
+	public void heapSort(int[] H, boolean ascending){
 		int len = H.length;
 		if(ascending == true)
 			maxHeap(H,len-1);
@@ -19,7 +55,7 @@ public class BinaryHeap {
 			extractFirst(H,temp--,ascending);
 		}
 	}
-	static void bubbleUp(int[] H, int curr, boolean type){
+	private void bubbleUp(int[] H, int curr, boolean type){
 		if(curr == 0){
 			return;
 		} else {
@@ -49,7 +85,7 @@ public class BinaryHeap {
 	}
 	//type = true means max heap, else min heap
 	//end inclusive
-	static void bubbleDown(int[] H, int curr, int end, boolean type){
+	private void bubbleDown(int[] H, int curr, int end, boolean type){
 		if(curr >= end){
 			return;
 		} 
@@ -92,7 +128,7 @@ public class BinaryHeap {
 		}
 	}
 
-	static void maxHeap(int[] H, int end){
+	public void maxHeap(int[] H, int end){
 		int len = end+1;
 		int trav = len/2;
 		for(;trav >= 0; trav--){
@@ -100,7 +136,7 @@ public class BinaryHeap {
 			bubbleDown(H,trav,end,true);
 		}
 	}
-	static void minHeap(int[] H, int end){
+	public void minHeap(int[] H, int end){
 		int len = end + 1;
 		int trav = len/2;
 		for(;trav >= 0; trav--){
@@ -108,7 +144,7 @@ public class BinaryHeap {
 		}
 	}
 	//make sure the size of the heap array is sufficiently large
-	static void insertHeap(int element, int[] H, int end, boolean type){
+	private void insertHeap(int element, int[] H, int end, boolean type){
 		if(end == H.length-1){
 			return;
 		}
@@ -116,7 +152,7 @@ public class BinaryHeap {
 		bubbleUp(H,end+1,type);
 	}
 	//return and remove the minimum element O(log(n))
-	static int extractFirst(int[] H, int end, boolean type){
+	private int extractFirst(int[] H, int end, boolean type){
 		if(end == 0){
 			return H[0];
 		}
@@ -130,12 +166,12 @@ public class BinaryHeap {
 		return toRet;
 	}
 	//return the min element O(1)
-	static int peek(int[] H, int end){
+	private int peek(int[] H, int end){
 		if(end < 0) return Integer.MAX_VALUE;
 		return H[0];
 	}
 	//find and decrease the value of key by d, O(n)
-	static boolean decreaseKey(int key, int d, int[] H, boolean maxType){
+	private boolean decreaseKey(int key, int d, int[] H, boolean maxType){
 		int i;
 		for(i = 0; i < H.length; i++){
 			if(H[i] == key){
@@ -149,25 +185,6 @@ public class BinaryHeap {
 		bubbleDown(H,i,H.length-1,maxType);
 		//if found and action taken, return true
 		return true;
-	}
-	//merge 2 given heaps
-	static int[] mergeHeap(int[] H1, int[] H2, boolean maxtype){
-		int len1 = H1.length;
-		int len2 = H2.length;
-		int H[] = new int[len1+len2];
-		int i;
-		for(i = 0; i < len1; i++){
-			H[i] = H1[i];
-		}
-		for(int j = 0; j < len2; j++){
-			H[i++] = H2[j];
-		}
-		if(maxtype == true){
-			maxHeap(H,len1+len2-1);
-		} else {
-			minHeap(H,len1+len2-1);
-		}
-		return H;
 	}
 
 	public static void main(String args[]){

@@ -1,7 +1,7 @@
 //replace ds shows lines where datatype needs to be changed if 
 //anything other than int is to be stored in the array
 //Naive but acceptable solution for now, until generics is mastered
-public class DynamicArray<T> {
+public class DynamicArray {
     int[] arr;                                      //replace ds
     int size;
     int capacity;
