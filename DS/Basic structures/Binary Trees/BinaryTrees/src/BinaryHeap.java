@@ -19,6 +19,7 @@ public class BinaryHeap<T extends Comparable<T>> {
 	}
 
 	public int size(){ return this.size;}
+	public boolean isEmpty(){ return this.size == 0;}
 
 	private int parent(int i){return (i-1)/2;}
 	private int lchild(int i){return (2*i + 1);}
