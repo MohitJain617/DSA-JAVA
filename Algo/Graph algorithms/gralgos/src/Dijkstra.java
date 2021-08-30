@@ -1,6 +1,48 @@
 import java.util.*;
+public class Dijkstra {
+	static int[] dijkstra(ArrayList<ArrayList<Nbr>> graph, boolean [] visited, int start, int end){
+		//to retrace path we need a parent array which gives parent of current 
+		//point. visited marks the point as having the minimum value it can achieve
+		//in terms of distarce from the source
+		int vtcs = graph.size();
+		int parent[] = new int[vtcs];
 
-@SuppressWarnings("Unchecked")
+		
+
+		return parent;
+	}
+	public static void main(String args[]){
+		Scanner scn = new Scanner(System.in);
+		
+
+		scn.close();
+	}
+}
+
+class Nbr{
+	int p;
+	int wt;
+	public Nbr(int p, int wt){
+		this.p = p;
+		this.wt = wt;
+	}
+}
+
+class Point implements Comparable<Point>{
+	int p;
+	int dist;
+	public Point(int p, int dist){
+		this.p = p;
+		this.dist = dist;
+	}
+	@Override
+	public int compareTo(Point o) {
+		// TODO Auto-generated method stub
+		return this.dist-o.dist;
+	}
+
+}
+
 class BinaryHeap<T extends Comparable<T>> {
 
 	T[] heap;
@@ -96,4 +138,3 @@ class BinaryHeap<T extends Comparable<T>> {
 
 	
 }
-
