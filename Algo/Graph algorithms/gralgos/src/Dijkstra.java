@@ -1,19 +1,63 @@
 import java.util.*;
 public class Dijkstra {
-	static int[] dijkstra(ArrayList<ArrayList<Nbr>> graph, boolean [] visited, int start, int end){
+	static int[] dijkstra(ArrayList<ArrayList<Nbr>> graph, boolean [] visited, int mindist[], int start, int end){
 		//to retrace path we need a parent array which gives parent of current 
 		//point. visited marks the point as having the minimum value it can achieve
 		//in terms of distarce from the source
 		int vtcs = graph.size();
 		int parent[] = new int[vtcs];
-
-		
-
+		for(int i = 0; i < vtcs; i++){
+			mindist[i] = Integer.MAX_VALUE;
+			parent[i] = -1;
+		}
+		mindist[start] = 0;
+		BinaryHeap<Point> pq = new BinaryHeap(Point.class,vtcs*vtcs);
+		pq.insert(new Point(start,0));
+		while(pq.isEmpty() == false){
+			Point curr = pq.poll();
+			if(visited[curr.p] == true) continue;
+			mindist[curr.p] = curr.dist; 
+			visited[curr.p] = true;
+			if(curr.p == end) break;
+			for(Nbr edge : graph.get(curr.p)){
+				if(visited[edge.p] == true) continue;
+				int wt = mindist[curr.p] + edge.wt;
+				if(wt < mindist[edge.p]){
+					mindist[edge.p] = wt;
+					parent[edge.p] = curr.p;
+					pq.insert(new Point(edge.p,mindist[edge.p]));
+				}
+			}
+		}
 		return parent;
 	}
 	public static void main(String args[]){
 		Scanner scn = new Scanner(System.in);
-		
+		int vtcs = scn.nextInt();
+		ArrayList<ArrayList<Nbr>> graph = new ArrayList<ArrayList<Nbr>>();
+		for(int i = 0; i < vtcs; i++){
+			graph.add(new ArrayList<Nbr>());
+		}
+		int edges = scn.nextInt();
+		for(int i = 0; i < edges; i++){
+			int p1 = scn.nextInt();
+			int p2 = scn.nextInt();
+			int wt = scn.nextInt();
+			graph.get(p1).add(new Nbr(p2,wt));
+			graph.get(p2).add(new Nbr(p1,wt));
+		}
+		int start = scn.nextInt();
+		int end = scn.nextInt();
+		boolean visited[] = new boolean[vtcs];
+		int minDist[] = new int[vtcs];
+		int[] parent = dijkstra(graph,visited,minDist,start,end);
+		System.out.println(minDist[end]);
+		System.out.println();
+		int trav = end;
+		while(trav != -1){
+			System.out.print(trav + "->");
+			trav = parent[trav];
+		}
 
 		scn.close();
 	}
@@ -57,7 +101,7 @@ class BinaryHeap<T extends Comparable<T>> {
 
 	//checking a >= b
 	private boolean compare(T a, T b){
-		return a.compareTo(b) >= 0;
+		return a.compareTo(b) > 0;
 	}
 
 	public int size(){ return this.size;}
